@@ -4,3 +4,6 @@ This Android project uses inner subclasses of AsyncTask to add and display items
 It is intended to act as an example for students in Mr B's App Coding class.
 
 It is released under the BSD 3-Clause License. See the License.md file for full details.
+
+NOTE: The ATDatabaseHelper.java file contains Code which was originally from https://github.com/mrhardman23/EmployeeDatabase .
+
