@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.mrb.asynctaskdb.MainActivity">
+    tools:context="com.example.mrb.asynctaskdb.MainActivity"
+    android:foreground="#0074abe9"
+    android:background="#80bfe1">
 
     <EditText
         android:layout_width="match_parent"
@@ -22,11 +26,10 @@
         android:text="Add Item"
         android:id="@+id/btnAddItem"
         android:onClick="addNewItem"
+        android:background="#7fea96"
         android:layout_alignTop="@+id/btnShowItems"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="54dp"
-        android:layout_marginStart="54dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +37,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/txtvwOutput"
         android:layout_below="@+id/btnAddItem"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/edtxtNewItem"
@@ -45,10 +47,83 @@
         android:layout_height="wrap_content"
         android:text="Show Items"
         android:id="@+id/btnShowItems"
+        android:onClick="showAllItems"
+        android:background="#6ee3dd"
         android:layout_below="@+id/edtxtNewItem"
-        android:layout_alignRight="@+id/edtxtNewItem"
-        android:layout_alignEnd="@+id/edtxtNewItem"
-        android:layout_marginRight="43dp"
-        android:layout_marginEnd="43dp"
-        android:onClick="showAllItems" />
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Items"
+        android:id="@+id/btnDelete"
+        android:layout_above="@+id/txtvwOutput"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="deleteAllItems"
+        android:background="#c886f7" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/edttxtNewHighscore"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Highscore"
+        android:id="@+id/btnAddHighscore"
+        android:onClick="AddNameAndScore"
+        android:background="#f06a6a"
+        android:layout_alignTop="@+id/btnGo"
+        android:layout_toRightOf="@+id/btnShowItems"
+        android:layout_toEndOf="@+id/btnShowItems" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edttxtNewHighscoreA"
+        android:layout_above="@+id/btnAddHighscore"
+        android:layout_alignRight="@+id/btnAddHighscore"
+        android:layout_alignEnd="@+id/btnAddHighscore"
+        android:layout_toRightOf="@+id/btnAddItem"
+        android:layout_toEndOf="@+id/btnAddItem" />
+
+    <com.example.mrb.asynctaskdb.PlaceToDraw
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        custom:showText="true"
+        custom:labelPosition="left"
+        android:id="@+id/drawBox"
+        android:layout_alignLeft="@+id/btnAddItem"
+        android:layout_alignStart="@+id/btnAddItem"
+        android:layout_above="@+id/edttxtNewHighscoreA"
+        android:layout_below="@+id/txtvwOutput" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO"
+        android:id="@+id/btnGo"
+        android:onClick="onClick"
+        android:background="#f4ca57"
+        android:layout_above="@+id/edttxtNewHighscore"
+        android:layout_toLeftOf="@+id/edttxtNewHighscoreA"
+        android:layout_toStartOf="@+id/edttxtNewHighscoreA" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PAUSE"
+        android:id="@+id/btnStop"
+        android:onClick="onStop"
+        android:layout_above="@+id/edttxtNewHighscore"
+        android:layout_alignLeft="@+id/btnShowItems"
+        android:layout_alignStart="@+id/btnShowItems" />
+
 </RelativeLayout>

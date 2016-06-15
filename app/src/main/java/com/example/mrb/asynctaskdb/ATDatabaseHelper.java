@@ -24,7 +24,6 @@ public class ATDatabaseHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         updateMyDatabase(db, 0, DB_VERSION);
-
     }
 
     @Override
@@ -34,15 +33,22 @@ public class ATDatabaseHelper extends SQLiteOpenHelper
 
     }
 
-    private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion)
+    public void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL("CREATE TABLE LIST (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "ITEM TEXT);");
+                "ITEM TEXT, " +
+                "HIGH_SCORE TEXT, " +
+                "EMPLOYEE_NUM INTEGER, " +
+                "SCORE REAL);");
     }
+
 
     public void insertElement(SQLiteDatabase db, ContentValues newContent)
     {
         db.insert("LIST", null, newContent);
 
+    }
+    public int deleteElement(SQLiteDatabase db, String where, String[] whereArgs){
+        return db.delete("LIST", where, whereArgs);
     }
 }
