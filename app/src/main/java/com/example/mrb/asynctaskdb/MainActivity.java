@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText edtxtNewItem;
+    public EditText edtxtNewItem;
     private Button btnAddItem;
     private Button btnShowItems;
     private TextView txtvwOutput;
@@ -31,31 +31,43 @@ public class MainActivity extends AppCompatActivity {
     int intScore;
     int intSpeed =4 ;
     private Button btnStop;
+
     private Button btnGoToMain;
+    private EditText edttxtName;
+    private TextView txtTitle;
+    public String strUsername;
+    String strScore;
+    TitlePage titlePage;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_title_page);
+        setContentView(R.layout.activity_main);
 
         edtxtNewItem = (EditText) findViewById(R.id.edtxtNewItem);
         btnAddItem = (Button) findViewById(R.id.btnAddItem);
         btnShowItems = (Button) findViewById(R.id.btnShowItems);
         txtvwOutput = (TextView) findViewById(R.id.txtvwOutput);
-        edttxtNewHighscore = (EditText) findViewById(R.id.edttxtNewHighscore);
-        edttxtNewHighscoreA = (EditText) findViewById(R.id.edttxtNewHighscoreA);
         drawBox = (PlaceToDraw) findViewById(R.id.drawBox);
         btnStop = (Button) findViewById(R.id.btnStop);
         btnGo = (Button) findViewById(R.id.btnGo);
-        btnGoToMain = (Button) findViewById(R.id.btnLetsPlay);
 
+        btnGoToMain = (Button) findViewById(R.id.btnLetsPlay);
+        edttxtName = (EditText) findViewById(R.id.edttxtUsername);
+        txtTitle = (TextView) findViewById(R.id.txtTitle);
+    }
+
+    public void GamePage (View vw){
+        strUsername = edttxtName.getText().toString();
+        setContentView(R.layout.activity_main);
     }
 
     public void addNewItem(View vw) {
         new ItemAdder().execute(edtxtNewItem.getText().toString());
-
     }
+
 
     public void deleteAllItems(View vw) {
         new DeleteItems().execute();
@@ -70,20 +82,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void AddNameAndScore(View vw) {
-        new NameAndScore().execute();
+        strUsername = edtxtNewItem.getText().toString();
+        edtxtNewItem.setText("");
+        strScore.valueOf(intScore);
+
+        ATDatabaseHelper atDatabaseHelper = new ATDatabaseHelper(this,null,null,0);
+        SQLiteDatabase db;
+        db = atDatabaseHelper.getWritableDatabase();
+        db.close();
+        new NameAndScore().execute(strScore);
     }
 
-    public void addNewHighscore(View vw) {
-        new ScoreAdder().execute(edttxtNewHighscoreA.getText().toString());
-    }
+
 
     public class NameAndScore extends AsyncTask<String, String, Boolean> {
 
         private SQLiteDatabase db;
         private ATDatabaseHelper atDatabaseHelper;
         private ContentValues cntntVals;
-        public String strName = edtxtNewItem.getText().toString();
-        public String strHighscore = edttxtNewHighscoreA.getText().toString();
+
 
         @Override
         protected void onPreExecute() {
@@ -92,10 +109,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            String strItemToAdd = strName;
-            String strScoreToAdd = strHighscore;
+
+            String strScoreToAdd = params[0];
             cntntVals = new ContentValues();
 
+
+
+            cntntVals.put("ITEM", strUsername);
+            cntntVals.put("HIGHSCORE", strScoreToAdd);
 
             try {
                 db = atDatabaseHelper.getWritableDatabase();
@@ -103,16 +124,15 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
 
-            if (strItemToAdd.length() == 0) {
+            if (strScoreToAdd.length() == 0) {
                 publishProgress("You must enter a value to add a new item.");
                 return false;
             } else {
-                cntntVals.put("ITEM", strName);
-                cntntVals.put("HIGH_SCORE", strHighscore);
+
                 atDatabaseHelper.insertElement(db, cntntVals);
                 publishProgress("Item has been added to the database.");
             }
-
+            db.close();
             atDatabaseHelper.close();
             return true;
         }
@@ -121,52 +141,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... values) {
             txtvwOutput.setText(values[0]);
         }
-
     }
 
-    private class ScoreAdder extends AsyncTask<String, String, Boolean> {
-
-        private SQLiteDatabase db;
-        private ATDatabaseHelper atDatabaseHelper;
-        private ContentValues cntntVals;
-
-        @Override
-        protected void onPreExecute() {
-            atDatabaseHelper = new ATDatabaseHelper(MainActivity.this, null, null, 0);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            String strItemToAdd = params[0];
-
-            cntntVals = new ContentValues();
-
-            cntntVals.put("HIGH_SCORE", strItemToAdd);
-
-            try {
-                db = atDatabaseHelper.getWritableDatabase();
-            } catch (SQLiteException sqlEx) {
-                return false;
-            }
-
-            if (strItemToAdd.length() == 0) {
-                publishProgress("You must enter a value to add a new item.");
-                return false;
-            } else {
-                atDatabaseHelper.insertElement(db, cntntVals);
-                publishProgress("Item has been added to the database.");
-            }
-
-            atDatabaseHelper.close();
-            return true;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            txtvwOutput.setText(values[0]);
-        }
-
-    }
 
     private class ItemAdder extends AsyncTask<String, String, Boolean> {
         private SQLiteDatabase db;
@@ -235,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             if (crsrDBReader != null) {
                 if (crsrDBReader.moveToFirst()) {
                     while (crsrDBReader.isAfterLast() == false) {
-                        String strItem = crsrDBReader.getString(crsrDBReader.getColumnIndex("HIGH_SCORE"));
+                        String strItem = crsrDBReader.getString(crsrDBReader.getColumnIndex("HIGHSCORE"));
 
                         arylstAllItems.add(strItem);
 
@@ -277,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             crsrDBReader = db.rawQuery("SELECT * FROM LIST", null);
+
 
             if (crsrDBReader != null) {
                 if (crsrDBReader.moveToFirst()) {
@@ -407,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
                     publishProgress();
                 }
             }
+            
             return null;
         }
 

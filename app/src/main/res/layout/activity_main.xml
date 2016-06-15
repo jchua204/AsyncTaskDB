@@ -60,17 +60,8 @@
         android:layout_above="@+id/txtvwOutput"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="deleteAllItems"
+        android:onClick="showAllHighscore"
         android:background="#c886f7" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/edttxtNewHighscore"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -83,16 +74,6 @@
         android:layout_toRightOf="@+id/btnShowItems"
         android:layout_toEndOf="@+id/btnShowItems" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edttxtNewHighscoreA"
-        android:layout_above="@+id/btnAddHighscore"
-        android:layout_alignRight="@+id/btnAddHighscore"
-        android:layout_alignEnd="@+id/btnAddHighscore"
-        android:layout_toRightOf="@+id/btnAddItem"
-        android:layout_toEndOf="@+id/btnAddItem" />
-
     <com.example.mrb.asynctaskdb.PlaceToDraw
         android:layout_width="400dp"
         android:layout_height="400dp"
@@ -101,8 +82,8 @@
         android:id="@+id/drawBox"
         android:layout_alignLeft="@+id/btnAddItem"
         android:layout_alignStart="@+id/btnAddItem"
-        android:layout_above="@+id/edttxtNewHighscoreA"
-        android:layout_below="@+id/txtvwOutput" />
+        android:layout_below="@+id/txtvwOutput"
+        android:layout_above="@+id/btnAddHighscore" />
 
     <Button
         android:layout_width="wrap_content"
@@ -111,9 +92,9 @@
         android:id="@+id/btnGo"
         android:onClick="onClick"
         android:background="#f4ca57"
-        android:layout_above="@+id/edttxtNewHighscore"
-        android:layout_toLeftOf="@+id/edttxtNewHighscoreA"
-        android:layout_toStartOf="@+id/edttxtNewHighscoreA" />
+        android:layout_alignTop="@+id/btnStop"
+        android:layout_toLeftOf="@+id/btnStop"
+        android:layout_toStartOf="@+id/btnStop" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -122,7 +103,7 @@
         android:text="PAUSE"
         android:id="@+id/btnStop"
         android:onClick="onStop"
-        android:layout_above="@+id/edttxtNewHighscore"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/btnShowItems"
         android:layout_alignStart="@+id/btnShowItems" />
 

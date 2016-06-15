@@ -12,9 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class TitlePage extends MainActivity {
-    private Button btnLetsPlay;
-    private EditText edttxtUsername;
-    private TextView txtTitle;
+    public Button btnLetsPlay;
+    public EditText edttxtUsername;
+    public TextView txtTitle;
     String strUsername;
     public Intent goToMain;
 
@@ -29,7 +29,7 @@ public class TitlePage extends MainActivity {
     }
 
     public void GamePage (View vw){
-        strUsername = edttxtUsername.getText().toString();
+
          new DbInsert().execute();
     }
 

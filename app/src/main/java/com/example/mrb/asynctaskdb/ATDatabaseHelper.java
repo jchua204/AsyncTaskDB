@@ -37,9 +37,7 @@ public class ATDatabaseHelper extends SQLiteOpenHelper
     {
         db.execSQL("CREATE TABLE LIST (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ITEM TEXT, " +
-                "HIGH_SCORE TEXT, " +
-                "EMPLOYEE_NUM INTEGER, " +
-                "SCORE REAL);");
+                "HIGHSCORE TEXT);");
     }
 
 
