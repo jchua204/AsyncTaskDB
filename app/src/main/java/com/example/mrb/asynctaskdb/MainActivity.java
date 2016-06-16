@@ -1,6 +1,7 @@
 package com.example.mrb.asynctaskdb;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -64,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void goToCredits (View vw){
+
+        Intent goToTheCredits  = new Intent(this,CreditsPage.class);
+        String strCredits = "Credits:  \n App developer-Jan Chua \n Teachers-Mr. Buskell and Mr.Hardman \n School-Sisler High School \n Program-Android Studio 1.5.1";
+
+        goToTheCredits.putExtra("credits",strCredits);
+        startActivityForResult(goToTheCredits, 0);
+    }
+
     public void addNewItem(View vw) {
         new ItemAdder().execute(edtxtNewItem.getText().toString());
     }
@@ -90,57 +100,33 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db;
         db = atDatabaseHelper.getWritableDatabase();
         db.close();
-        new NameAndScore().execute(strScore);
+        NameAndScore();
     }
 
 
 
-    public class NameAndScore extends AsyncTask<String, String, Boolean> {
+    private class NameAndScore(View vw){
 
         private SQLiteDatabase db;
         private ATDatabaseHelper atDatabaseHelper;
         private ContentValues cntntVals;
 
+        atDatabaseHelper = new ATDatabaseHelper(MainActivity.this, null, null, 0);
+        String strScoreToAdd = ;
+        cntntVals = new ContentValues();
 
-        @Override
-        protected void onPreExecute() {
-            atDatabaseHelper = new ATDatabaseHelper(MainActivity.this, null, null, 0);
+
+        cntntVals.put("ITEM", strUsername);
+        cntntVals.put("HIGHSCORE", strScoreToAdd);
+
+        try {
+            db = atDatabaseHelper.getWritableDatabase();
+        } catch (SQLiteException sqlEx) {
         }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-
-            String strScoreToAdd = params[0];
-            cntntVals = new ContentValues();
-
-
-
-            cntntVals.put("ITEM", strUsername);
-            cntntVals.put("HIGHSCORE", strScoreToAdd);
-
-            try {
-                db = atDatabaseHelper.getWritableDatabase();
-            } catch (SQLiteException sqlEx) {
-                return false;
-            }
-
-            if (strScoreToAdd.length() == 0) {
-                publishProgress("You must enter a value to add a new item.");
-                return false;
-            } else {
-
-                atDatabaseHelper.insertElement(db, cntntVals);
-                publishProgress("Item has been added to the database.");
-            }
-            db.close();
-            atDatabaseHelper.close();
-            return true;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            txtvwOutput.setText(values[0]);
-        }
+        atDatabaseHelper.insertElement(db, cntntVals);
+        db.close();
+        atDatabaseHelper.close();
+        txtvwOutput.setText();
     }
 
 
@@ -384,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
                     publishProgress();
                 }
             }
-            
+
             return null;
         }
 

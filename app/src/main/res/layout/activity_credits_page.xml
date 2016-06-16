@@ -7,39 +7,25 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.mrb.asynctaskdb.TitlePage"
-    android:background="#80bfe1">
-
-
+    tools:context="com.example.mrb.asynctaskdb.CreditsPage">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="DEATH BOX"
-        android:id="@+id/txtTitle"
+        android:text="Large Text"
+        android:id="@+id/txtCredits"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
-        android:singleLine="true" />
+        android:layout_marginTop="153dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lets Play"
-        android:id="@+id/btnLetsPlay"
-        android:layout_centerVertical="true"
+        android:text="Go Back"
+        android:id="@+id/btnBack"
+        android:layout_below="@+id/txtCredits"
         android:layout_centerHorizontal="true"
-        android:onClick="GamePage" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/edttxtUsername"
-        android:layout_above="@+id/btnLetsPlay"
-        android:layout_centerHorizontal="true"
-        android:text="Name" />
-
+        android:layout_marginTop="114dp"
+        android:onClick="BackFromCredits" />
 </RelativeLayout>

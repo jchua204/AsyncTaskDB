@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DrawingArea" />
-        <activity android:name=".TitlePage"></activity>
+        <activity android:name=".TitlePage" />
+        <activity android:name=".CreditsPage"></activity>
     </application>
 
 </manifest>
