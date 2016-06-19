@@ -29,7 +29,6 @@ public class TitlePage extends MainActivity {
     }
 
     public void GamePage (View vw){
-
          new DbInsert().execute();
     }
 

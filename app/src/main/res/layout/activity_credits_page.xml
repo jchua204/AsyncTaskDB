@@ -7,13 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.mrb.asynctaskdb.CreditsPage">
+    tools:context="com.example.mrb.asynctaskdb.CreditsPage"
+    android:background="#80bfe1">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="Credits:"
         android:id="@+id/txtCredits"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,8 +25,32 @@
         android:layout_height="wrap_content"
         android:text="Go Back"
         android:id="@+id/btnBack"
-        android:layout_below="@+id/txtCredits"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="114dp"
-        android:onClick="BackFromCredits" />
+        android:onClick="BackFromCredits"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/txtCredits"
+        android:layout_toStartOf="@+id/txtCredits"
+        android:layout_marginBottom="127dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scores"
+        android:id="@+id/btnHighscore"
+        android:layout_alignTop="@+id/btnBack"
+        android:layout_toRightOf="@+id/txtCredits"
+        android:layout_toEndOf="@+id/txtCredits"
+        android:onClick="showAllHighscore" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_below="@+id/btnHighscore"
+        android:layout_alignRight="@+id/btnHighscore"
+        android:layout_alignEnd="@+id/btnHighscore"
+        android:clickable="true"
+        android:contextClickable="true"
+        android:numStars="5"
+        android:onClick="rating" />
+
 </RelativeLayout>

@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnAddItem;
     private Button btnShowItems;
     private TextView txtvwOutput;
-    private EditText edttxtNewHighscore;
-    private EditText edttxtNewHighscoreA;
     PlaceToDraw drawBox;
     private Button btnGo;
     boolean blnGoingRight = false;
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtTitle;
     public String strUsername;
     String strScore;
+
     TitlePage titlePage;
 
 
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToCredits (View vw){
 
         Intent goToTheCredits  = new Intent(this,CreditsPage.class);
-        String strCredits = "Credits:  \n App developer-Jan Chua \n Teachers-Mr. Buskell and Mr.Hardman \n School-Sisler High School \n Program-Android Studio 1.5.1";
+        String strCredits = "Credits:  \n App developer-Jan Chua(jchua204) \n Teachers-Mr. Buskell and Mr.Hardman \n School-Sisler High School \n Program-Android Studio 1.5.1";
 
         goToTheCredits.putExtra("credits",strCredits);
         startActivityForResult(goToTheCredits, 0);
@@ -87,9 +86,7 @@ public class MainActivity extends AppCompatActivity {
         new ShowItems().execute();
     }
 
-    public void showAllHighscore(View vw) {
-        new showHighscore().execute();
-    }
+
 
     public void AddNameAndScore(View vw) {
         strUsername = edtxtNewItem.getText().toString();
@@ -100,24 +97,13 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db;
         db = atDatabaseHelper.getWritableDatabase();
         db.close();
-        NameAndScore();
-    }
 
+        ContentValues cntntVals;
 
-
-    private class NameAndScore(View vw){
-
-        private SQLiteDatabase db;
-        private ATDatabaseHelper atDatabaseHelper;
-        private ContentValues cntntVals;
-
-        atDatabaseHelper = new ATDatabaseHelper(MainActivity.this, null, null, 0);
-        String strScoreToAdd = ;
         cntntVals = new ContentValues();
 
-
         cntntVals.put("ITEM", strUsername);
-        cntntVals.put("HIGHSCORE", strScoreToAdd);
+        cntntVals.put("HIGHSCORE", strScore);
 
         try {
             db = atDatabaseHelper.getWritableDatabase();
@@ -126,9 +112,8 @@ public class MainActivity extends AppCompatActivity {
         atDatabaseHelper.insertElement(db, cntntVals);
         db.close();
         atDatabaseHelper.close();
-        txtvwOutput.setText();
+        txtvwOutput.setText(strUsername + "has a score of " + strScore);
     }
-
 
     private class ItemAdder extends AsyncTask<String, String, Boolean> {
         private SQLiteDatabase db;
@@ -172,50 +157,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class showHighscore extends AsyncTask<Void, String, Boolean> {
-        private SQLiteDatabase db;
-        private ATDatabaseHelper atDatabaseHelper;
-        private Cursor crsrDBReader;
-        private ArrayList<String> arylstAllItems;
 
-        @Override
-        protected void onPreExecute() {
-            atDatabaseHelper = new ATDatabaseHelper(MainActivity.this, null, null, 0);
-            arylstAllItems = new ArrayList<String>();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                db = atDatabaseHelper.getReadableDatabase();
-            } catch (SQLiteException sqlEx) {
-                return false;
-            }
-
-            crsrDBReader = db.rawQuery("SELECT * FROM LIST ", null);
-
-            if (crsrDBReader != null) {
-                if (crsrDBReader.moveToFirst()) {
-                    while (crsrDBReader.isAfterLast() == false) {
-                        String strItem = crsrDBReader.getString(crsrDBReader.getColumnIndex("HIGHSCORE"));
-
-                        arylstAllItems.add(strItem);
-
-                        crsrDBReader.moveToNext();
-                    }
-                }
-                crsrDBReader.close();
-            }
-
-            atDatabaseHelper.close();
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean value) {
-            txtvwOutput.setText(arylstAllItems.toString());
-        }
-    }
 
     private class ShowItems extends AsyncTask<Void, String, Boolean> {
         private SQLiteDatabase db;
@@ -323,7 +265,9 @@ public class MainActivity extends AppCompatActivity {
             txtvwOutput.setText("Score:");
             intScore = 0;
             btnGo.setEnabled(true);
-            drawBox.reset();
+            Random rand = new Random();
+            int n = rand.nextInt(600) + 50;
+            drawBox.RandomPosition(n);
         }
         if (blnStop) {
             blnStop = false;
@@ -347,8 +291,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             blnAnimationDone = false;
             if (blnGoingRight == true) {
+                btnGo.setText("Right");
                 blnGoingRight = false;
             } else {
+                btnGo.setText("Left");
                 blnGoingRight = true;
             }
 
@@ -384,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (drawBox.getFallDown() >= drawBox.getHeight()){
                         Random rand = new Random();
-                        int n = rand.nextInt(300) + 50;
+                        int n = rand.nextInt(600) + 50;
                         drawBox.RandomPosition(n);
                         intScore++;
                         txtvwOutput.setText("Score:" + intScore);
